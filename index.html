@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Devil Mart - Customer App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    header {
+      background-color: #1e1e2f;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .search-bar {
+      padding: 20px;
+      text-align: center;
+    }
+    .search-bar input {
+      width: 90%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .categories {
+      display: flex;
+      overflow-x: auto;
+      padding: 10px;
+      background: #fff;
+    }
+    .category {
+      background-color: #ddd;
+      margin-right: 10px;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      padding: 15px;
+    }
+    .product-card {
+      background: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .product-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+    }
+    .product-card h4 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+    .product-card p {
+      color: green;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+    .add-btn {
+      background-color: #1e1e2f;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    footer {
+      background-color: #1e1e2f;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>🛍️ Devil Mart</header>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for products...">
+  </div>
+  <div class="categories" id="categoryList">
+    <div class="category">All</div>
+    <div class="category">Groceries</div>
+    <div class="category">Snacks</div>
+    <div class="category">Beverages</div>
+    <div class="category">Personal Care</div>
+    <div class="category">Household</div>
+  </div>
+  <div class="products" id="productList"></div>
+  <footer>© 2025 Devil Mart</footer>
+
+  <script>
+    const products = [
+      {
+        name: "Aashirvaad Atta",
+        price: "₹250",
+        category: "Groceries",
+        img: "https://m.media-amazon.com/images/I/81+kDLrjYjL._SL1500_.jpg"
+      },
+      {
+        name: "Lays Chips - Classic Salted",
+        price: "₹20",
+        category: "Snacks",
+        img: "https://m.media-amazon.com/images/I/91UYzRZtzoL._SL1500_.jpg"
+      },
+      {
+        name: "Coca Cola - 750ml",
+        price: "₹45",
+        category: "Beverages",
+        img: "https://m.media-amazon.com/images/I/61BhFjUvZpL._SL1500_.jpg"
+      },
+      {
+        name: "Dove Shampoo 180ml",
+        price: "₹120",
+        category: "Personal Care",
+        img: "https://m.media-amazon.com/images/I/71UBcZVuzYL._SL1500_.jpg"
+      },
+      {
+        name: "Surf Excel Detergent",
+        price: "₹180",
+        category: "Household",
+        img: "https://m.media-amazon.com/images/I/81Shv+0FoQL._SL1500_.jpg"
+      },
+      {
+        name: "Pepsi Can 250ml",
+        price: "₹40",
+        category: "Beverages",
+        img: "https://m.media-amazon.com/images/I/71HK8y3gZ6L._SL1500_.jpg"
+      },
+      {
+        name: "Parle G Biscuits",
+        price: "₹10",
+        category: "Snacks",
+        img: "https://m.media-amazon.com/images/I/51JD8R6k+gL._SL1000_.jpg"
+      }
+    ];
+    const productList = document.getElementById("productList");
+    const searchInput = document.getElementById("searchInput");
+    const categoryList = document.getElementById("categoryList");
+
+    function displayProducts(filtered) {
+      productList.innerHTML = "";
+      filtered.forEach((product) => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${product.img}" alt="${product.name}">
+          <h4>${product.name}</h4>
+          <p>${product.price}</p>
+          <button class="add-btn">Add to Cart</button>
+        `;
+        productList.appendChild(card);
+      });
+    }
+
+    displayProducts(products);
+
+    searchInput.addEventListener("input", () => {
+      const value = searchInput.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(value));
+      displayProducts(filtered);
+    });
+
+    categoryList.addEventListener("click", (e) => {
+      if (e.target.classList.contains("category")) {
+        const category = e.target.textContent;
+        if (category === "All") {
+          displayProducts(products);
+        } else {
+          const filtered = products.filter(p => p.category === category);
+          displayProducts(filtered);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
